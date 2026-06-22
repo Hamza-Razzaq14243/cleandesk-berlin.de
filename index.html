@@ -505,7 +505,7 @@
           </div>
           <div class="form-group">
             <label data-en>Message</label><label data-de>Nachricht</label>
-            <textarea name="message" placeholder="Tell us about your office size and cleaning needs..."></textarea>
+            <textarea name="message" id="msgField" placeholder="Tell us about your office size and cleaning needs..." data-ph-en="Tell us about your office size and cleaning needs..." data-ph-de="Erzählen Sie uns von Ihrer Bürogröße und Ihren Reinigungswünschen..."></textarea>
           </div>
           <button type="submit" class="submit-btn" data-en>Send Message →</button>
           <button type="submit" class="submit-btn" data-de>Nachricht senden →</button>
@@ -535,13 +535,15 @@
       document.body.classList.toggle('de', lang === 'de');
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+      const msg = document.getElementById('msgField');
+      if (msg) { msg.placeholder = lang === 'de' ? msg.dataset.phDe : msg.dataset.phEn; }
     }
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); });
 
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     const counters = document.querySelectorAll('.stat-num');
